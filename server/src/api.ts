@@ -6,31 +6,42 @@ dotenv.config({
   path: '.env'
 });
 
-const access_key = process.env.RAPYD_ACCESS_KEY_SANDBOX || "EMPTY";
-const secret_key = process.env.RAPYD_SECRET_KEY_SANDBOX || "EMPTY";
-const base_url = `https://sandboxapi.rapyd.net`;
+const accessKey = process.env.RAPYD_ACCESS_KEY_SANDBOX || "EMPTY";
+const secretKey = process.env.RAPYD_SECRET_KEY_SANDBOX || "EMPTY";
+const baseUrl = `https://sandboxapi.rapyd.net`;
 
-export async function call_rapyd_api(http_method: string, api_url: string, body="") {
+/**
+ *
+ * @param httpMethod The http method call you're making – GET, PUT, POST, etc...
+ * @param apiUrl Rapyd API URL to be called- Ex: /v1/data/countries
+ * @param body Any data to be passed into the Rapyd API call
+ * @returns The data response from Rapyd API
+ */
+export async function callRapydApi(httpMethod: string, apiUrl: string, data="") {
   const salt = crypto.randomBytes(12).toString('hex');
   const timestamp = (Math.floor(new Date().getTime() / 1000) - 10).toString();
 
   const headers = {
     "Content-Type": `application/json`,
-    access_key: access_key,
+    access_key: accessKey,
     salt: salt,
     timestamp: timestamp,
-    signature: get_signature(salt, timestamp, api_url, http_method, body),
+    signature: getSignature(salt, timestamp, apiUrl, httpMethod, data),
   };
 
-  const fetch_api = async () => {
+  const options = {
+    headers: headers,
+    method: httpMethod,
+    baseURL: baseUrl,
+    url: apiUrl,
+    data: data,
+  }
+
+  const fetchApi = async () => {
     try {
-      const res = await axios.get(
-        base_url + api_url, {
-        headers: headers,
-      })
-      return res;
-    }
-    catch (error: any) {
+      const res = await axios(options);
+      return res.data;
+    } catch (error: any) {
       if (error.response) {
         console.log(error.response)
         return error.response;
@@ -38,18 +49,18 @@ export async function call_rapyd_api(http_method: string, api_url: string, body=
       return error;
     }
   }
-  return await fetch_api();
+  return await fetchApi();
 }
 
-function get_signature(salt: string, timestamp: string, url_path: string, http_method: string, data: string): string {
+function getSignature(salt: string, timestamp: string, urlPath: string, httpMethod: string, data: string): string {
     
-    if (access_key == "EMPTY" || secret_key == "EMPTY") {
+    if (accessKey == "EMPTY" || secretKey == "EMPTY") {
       throw new Error("Rapyd access or secret key is empty!")
     }
 
-    const to_sign = http_method + url_path + salt + timestamp + access_key + secret_key + data;
+    const to_sign = httpMethod + urlPath + salt + timestamp + accessKey + secretKey + data;
 
-    const hash = crypto.createHmac('sha256', secret_key).update(to_sign).digest('hex');
+    const hash = crypto.createHmac('sha256', secretKey).update(to_sign).digest('hex');
     const signature = Buffer.from(hash).toString('base64');
 
     return signature;
