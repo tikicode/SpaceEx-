@@ -1,0 +1,19 @@
+import express, { Router, Response, Request } from 'express';
+import { callRapydApi } from '../api';
+
+const router = Router();
+
+router.use(express.json());
+
+router.route('/').get((req: Request, res: Response) => {
+    res.json({hi: "hi this is wallet"});
+});
+
+router.route('/').post((req: Request, res: Response) => {
+  const body = req.body;
+  callRapydApi('post', '/v1/user', body).then(result => {
+      res.send(result)
+  });
+});
+
+export default router;

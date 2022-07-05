@@ -20,13 +20,16 @@ const baseUrl = `https://sandboxapi.rapyd.net`;
 export async function callRapydApi(httpMethod: string, apiUrl: string, data="") {
   const salt = crypto.randomBytes(12).toString('hex');
   const timestamp = (Math.floor(new Date().getTime() / 1000) - 10).toString();
+  const signature = getSignature(salt, timestamp, apiUrl, httpMethod, data);
+
+  console.log(data);
 
   const headers = {
     "Content-Type": `application/json`,
     access_key: accessKey,
     salt: salt,
     timestamp: timestamp,
-    signature: getSignature(salt, timestamp, apiUrl, httpMethod, data),
+    signature: signature,
   };
 
   const options = {
@@ -41,18 +44,20 @@ export async function callRapydApi(httpMethod: string, apiUrl: string, data="") 
     try {
       const res = await axios(options);
       return res.data;
+
     } catch (error: any) {
       if (error.response) {
-        console.log(error.response)
-        return error.response;
+        return error.response.data;
       }
+
       return error;
     }
   }
+
   return await fetchApi();
 }
 
-function getSignature(salt: string, timestamp: string, urlPath: string, httpMethod: string, data: string): string {
+function getSignature(salt: string, timestamp: string, urlPath: string, httpMethod: string, data: any): string {
     
     if (accessKey == "EMPTY" || secretKey == "EMPTY") {
       throw new Error("Rapyd access or secret key is empty!")
