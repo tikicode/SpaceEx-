@@ -3,19 +3,8 @@ import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import { UserSignUp } from './User/UserSignUp';
 import './App.css';
 
-import axios from 'axios';
 
 function App() {
-  let test = "hihihi";
-  useEffect(() => {
-    axios.get('/wallet')
-      .then(res => {test = res.data.wallet})
-      .then(res => {
-        console.log('Output: ', res);
-        console.log(test)
-      });
-  }, []);
-
   return (
     <BrowserRouter>
       <Routes>
