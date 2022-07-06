@@ -18,11 +18,11 @@ const baseUrl = `https://sandboxapi.rapyd.net`;
  * @returns The data response from Rapyd API
  */
 export async function callRapydApi(httpMethod: string, apiUrl: string, data="") {
+  data = (data == "" || data == "{}") ? "" : JSON.stringify(data);
+
   const salt = crypto.randomBytes(12).toString('hex');
   const timestamp = (Math.floor(new Date().getTime() / 1000) - 10).toString();
   const signature = getSignature(salt, timestamp, apiUrl, httpMethod, data);
-
-  console.log(data);
 
   const headers = {
     "Content-Type": `application/json`,
@@ -39,6 +39,8 @@ export async function callRapydApi(httpMethod: string, apiUrl: string, data="") 
     url: apiUrl,
     data: data,
   }
+
+  console.log(options);
 
   const fetchApi = async () => {
     try {

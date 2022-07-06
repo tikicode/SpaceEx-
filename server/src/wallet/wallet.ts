@@ -6,7 +6,7 @@ const router = Router();
 router.use(express.json());
 
 router.route('/').get((req: Request, res: Response) => {
-    res.json({hi: "hi this is wallet"});
+  res.json({wallet: "HELLO WALLET"});
 });
 
 router.route('/').post((req: Request, res: Response) => {
