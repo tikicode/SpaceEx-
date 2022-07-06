@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
+import { UserSignUp } from './User/UserSignUp';
 import './App.css';
 
 import axios from 'axios';
@@ -15,22 +17,28 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      <header className="App-header">
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Index />} />
+        <Route path='/user' element={<UserSignUp />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+function Index() {
+  const navigate = useNavigate();
+  return (
+    <div className='App'>
+      <header className='App-header'>
         <p>
           BETA JAVASCRIPT DEVELOPERS
         </p>
-        <div>
-          {test}
-        </div>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+        <button
+          onClick={ () => { navigate('/user') }}
         >
-          Learn React
-        </a>
+          Sign Up
+        </button>
       </header>
     </div>
   );
