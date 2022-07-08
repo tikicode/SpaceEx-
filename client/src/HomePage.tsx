@@ -1,14 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Center,
   Box,
-  Flex,
   Heading,
   VStack,
   Button,
 } from '@chakra-ui/react';
 
 export function HomePage() {
+  const navigate = useNavigate();
   return (
     <Center height='100vh' width='100vw'>
       <Box
@@ -40,6 +41,9 @@ export function HomePage() {
             fontSize={25}
             height='7vh'
             width='20vw'
+            onClick={() => {
+              navigate('/user')
+            }}
           >
             Sign Up
           </Button>

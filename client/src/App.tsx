@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
+import React, { } from 'react';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { UserSignUp } from './User/UserSignUp';
 import { HomePage } from './HomePage';
-import { ChakraProvider, extendTheme } from '@chakra-ui/react';
+import { ChakraProvider } from '@chakra-ui/react';
 import './App.css';
 
 function App() {
