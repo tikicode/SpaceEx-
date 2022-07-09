@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import {
+  Box,
+  Center,
+  Input,
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  FormHelperText,
+} from '@chakra-ui/react'
 
 export function UserSignUp() {
   const [name, setName] = useState("");
@@ -13,35 +22,24 @@ export function UserSignUp() {
   }, []);
 
   return (
-    <form onSubmit={() => { 
-      console.log(name);
-      alert(name);
-    }}>
-      <label>
-        First Name:
-        <input
-          type="text"
-          name="First Name"
-          onChange={e => {
-            setName(e.target.value)
-          }}
-        />
-      </label>
-      <label>
-        Last Name:
-        <input
-          type="text"
-          name="Last Name"
-          onChange={e => {
-            setName(e.target.value)
-          }}
-        />
-      </label>
-      <input 
-        type="submit"
-        value="Submit"
-      />
-    </form>
+    <Center width='100vw' height='100vh'>
+      <Box
+        borderWidth='5px'
+      >
+        <FormControl>
+          <FormLabel htmlFor='name' fontWeight={600}>First Name</FormLabel>
+          <Input id='name' type='name' />
+
+          <FormLabel htmlFor='name' fontWeight={600}>Last Name</FormLabel>
+          <Input id='name' type='name' />
+
+          <FormLabel htmlFor='email' fontWeight={600}>Email address</FormLabel>
+          <Input id='email' type='email' />
+          <FormHelperText>We'll never share your email.</FormHelperText>
+
+        </FormControl>
+      </Box>
+    </Center>
   );
 }
 
