@@ -5,6 +5,10 @@ const router = Router();
 
 router.use(express.json());
 
+exports.createWallet = (req: Request, res: Response) => {
+  res.send("Not implemented");
+}
+
 router.route('/').get((req: Request, res: Response) => {
   res.json({wallet: "HELLO WALLET"});
 });
