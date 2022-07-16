@@ -1,51 +1,56 @@
 import { Response, Request } from 'express';
 import dotenv from 'dotenv';
 //import { callRapydApi } from '../api';
-import axios from 'axios';
+import { connectToDB } from '../database';
+import { Db, ObjectId } from 'mongodb';
 
 dotenv.config({
   path: '.env'
 });
 
-const mongo_base_url = 'https://data.mongodb-api.com/app/data-ghpdx/endpoint/data/v1/insertOne';
-const mongo_api_key = process.env.MONGO_API_KEY || '';
+let db: Db;
+
+connectToDB().then(database => db = database);
 
 export function createMerchant (req: Request, res: Response) {
-  const headers = {
-    "Content-Type": `application/json`,
-    "api-key": mongo_api_key,
-  };
 
-  const data = {
-    dataSource: 'Cluster0',
-    dataBase: 'Payload',
-    collection: 'Merchants',
-    document: req.body,
+  const merchantDocument = {
+    first_name: req.body.first_name,
+    last_name: req.body.last_name,
+    company: req.body.company,
   }
 
-  const options = {
-    headers: headers,
-    method: 'post',
-    baseURL: mongo_base_url,
-    url: '/insertOne',
-    data: data,
-  }
+  db
+  .collection('Merchants')
+  .insertOne(merchantDocument, (err, result) => {
+    if (err) {
+      res.status(400).send('Error inserting matches!');
 
-  const queryMongo = async () => {
-    try {
-      await axios(options).then(result => {
-        console.log("WORK");
-        res.send(result);
-      });
-
-    } catch (error: any) {
-      if (error.response) {
-        res.send(error.response.data);
-      }
     }
-  }
+    else {
+      console.log(`Added a new match with id ${result?.insertedId}`);
 
-  queryMongo();
+      res.status(204).send(result);
+    }
+  });
+}
+
+export function deleteMerchant (req: Request, res: Response) {
+  const id = {
+    "_id": new ObjectId(req.body.id)
+  };
+  db
+  .collection('Merchants')
+  .deleteOne(id, (err, result) => {
+    if (err) {
+      res.status(400).send('Error inserting matches!');
+    }
+    else {
+      console.log(`Deleted merchant with id ${result?.acknowledged}`);
+
+      res.status(204).send(result);
+    }
+  });
 }
 
 
