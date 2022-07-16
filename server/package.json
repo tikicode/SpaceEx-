@@ -4,10 +4,9 @@
   "description": "",
   "main": "app.js",
   "type": "module",
-  "exports": "./dist/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon --watch './**/*.ts' --exec 'node --experimental-specifier-resolution=node --loader ts-node/esm' src/app.ts"
+    "dev": "nodemon src/app.js"
   },
   "author": "",
   "license": "ISC",

@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import express from 'express';
-import merchantRouter from './Merchant/MerchantRoutes'; 
+import  { merchantRouter } from './Merchant/MerchantRoutes.js'; 
 
 dotenv.config({
   path: '.env'

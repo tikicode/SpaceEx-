@@ -2,13 +2,11 @@ import express, { Router } from 'express';
 import { 
   createMerchant,
   deleteMerchant,
- } from "./MerchantController";
+ } from "./MerchantController.js";
 
-const merchantRouter = Router();
+export const merchantRouter = Router();
 
 merchantRouter.use(express.json());
 
 merchantRouter.post('/create', createMerchant);
 merchantRouter.delete('/delete', deleteMerchant);
-
-export default merchantRouter;

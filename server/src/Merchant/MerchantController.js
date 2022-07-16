@@ -1,16 +1,12 @@
-import { Response, Request } from 'express';
 import dotenv from 'dotenv';
 //import { callRapydApi } from '../api';
-import { connectToDB } from '../database';
-import { Db, ObjectId } from 'mongodb';
 
 dotenv.config({
   path: '.env'
 });
 
+// THIS DB IS ABSOLUTELY SCREWED, NEED TO CONNECT TO DB.
 let db;
-
-connectToDB().then(database => db = database);
 
 export function createMerchant (req, res) {
 
