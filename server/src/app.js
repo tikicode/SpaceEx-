@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import express, { Request, Response } from 'express';
+import express from 'express';
 import merchantRouter from './Merchant/MerchantRoutes'; 
 
 dotenv.config({
@@ -11,7 +11,7 @@ const PORT = process.env.APP_PORT;
 
 app.use('/merchant', merchantRouter);
 
-app.get("/", (req: Request, res: Response) => {
+app.get("/", (req, res) => {
   res.send("Hello world!");
 });
 

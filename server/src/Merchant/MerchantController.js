@@ -8,11 +8,11 @@ dotenv.config({
   path: '.env'
 });
 
-let db: Db;
+let db;
 
 connectToDB().then(database => db = database);
 
-export function createMerchant (req: Request, res: Response) {
+export function createMerchant (req, res) {
 
   const merchantDocument = {
     first_name: req.body.first_name,
@@ -35,7 +35,7 @@ export function createMerchant (req: Request, res: Response) {
   });
 }
 
-export function deleteMerchant (req: Request, res: Response) {
+export function deleteMerchant (req, res) {
   const id = {
     "_id": new ObjectId(req.body.id)
   };
