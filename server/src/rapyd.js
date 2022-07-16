@@ -17,7 +17,7 @@ const baseUrl = `https://sandboxapi.rapyd.net`;
  * @param body Any data to be passed into the Rapyd API call
  * @returns The data response from Rapyd API
  */
-export async function callRapydApi(httpMethod: string, apiUrl: string, data="") {
+export async function callRapydApi(httpMethod, apiUrl, data="") {
   data = (data == "" || data == "{}") ? "" : JSON.stringify(data);
 
   const salt = crypto.randomBytes(12).toString('hex');
@@ -47,7 +47,7 @@ export async function callRapydApi(httpMethod: string, apiUrl: string, data="") 
       const res = await axios(options);
       return res.data;
 
-    } catch (error: any) {
+    } catch (error) {
       if (error.response) {
         return error.response.data;
       }
@@ -59,7 +59,7 @@ export async function callRapydApi(httpMethod: string, apiUrl: string, data="") 
   return await fetchApi();
 }
 
-function getSignature(salt: string, timestamp: string, urlPath: string, httpMethod: string, data: any): string {
+function getSignature(salt, timestamp, urlPath, httpMethod, data) {
     
     if (accessKey == "EMPTY" || secretKey == "EMPTY") {
       throw new Error("Rapyd access or secret key is empty!")
